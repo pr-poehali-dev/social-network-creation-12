@@ -21,6 +21,7 @@ interface Post {
   avatar: string;
   content: string;
   image?: string;
+  video?: string;
   timestamp: string;
   likes: number;
   liked: boolean;
@@ -34,6 +35,27 @@ const Index = () => {
   const [posts, setPosts] = useState<Post[]>([
     {
       id: '1',
+      author: 'Анна Смирнова',
+      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Anna',
+      content: 'Посмотрите на этот потрясающий закат! 🌅',
+      video: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+      timestamp: '30 минут назад',
+      likes: 156,
+      liked: false,
+      comments: [
+        {
+          id: 'cv1',
+          author: 'Дмитрий Сидоров',
+          avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Dmitry',
+          content: 'Невероятные краски! Где снимали?',
+          timestamp: '20 минут назад',
+          replies: []
+        }
+      ],
+      showComments: false
+    },
+    {
+      id: '1b',
       author: 'Анна Смирнова',
       avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Anna',
       content: 'Прекрасный день для новых открытий! 🌟',
@@ -63,6 +85,18 @@ const Index = () => {
     },
     {
       id: '2',
+      author: 'Михаил Козлов',
+      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Mikhail',
+      content: 'Делюсь своим любимым видео о космосе 🚀',
+      video: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+      timestamp: '3 часа назад',
+      likes: 89,
+      liked: false,
+      comments: [],
+      showComments: false
+    },
+    {
+      id: '3',
       author: 'Михаил Козлов',
       avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Mikhail',
       content: 'Наконец-то закончил проект! Целых три месяца работы 🎉',
@@ -300,9 +334,14 @@ const Index = () => {
                         className="min-h-[80px] resize-none border-0 bg-muted focus-visible:ring-0 rounded-xl"
                       />
                       <div className="flex justify-between items-center mt-3">
-                        <Button variant="ghost" size="sm">
-                          <Icon name="Image" size={20} className="text-green-600" />
-                        </Button>
+                        <div className="flex gap-2">
+                          <Button variant="ghost" size="sm">
+                            <Icon name="Image" size={20} className="text-green-600" />
+                          </Button>
+                          <Button variant="ghost" size="sm">
+                            <Icon name="Video" size={20} className="text-red-600" />
+                          </Button>
+                        </div>
                         <Button 
                           onClick={handleAddPost}
                           disabled={!newPost.trim()}
@@ -336,6 +375,19 @@ const Index = () => {
 
                       {post.image && (
                         <img src={post.image} alt="" className="w-full rounded-lg mb-3" />
+                      )}
+
+                      {post.video && (
+                        <div className="mb-3 rounded-lg overflow-hidden bg-black">
+                          <video 
+                            controls 
+                            className="w-full"
+                            preload="metadata"
+                          >
+                            <source src={post.video} type="video/mp4" />
+                            Ваш браузер не поддерживает видео
+                          </video>
+                        </div>
                       )}
 
                       <div className="flex items-center justify-between text-xs text-muted-foreground mb-3 pt-3 border-t">
